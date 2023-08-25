@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MOD_NAME="WorkTabMinimized"
+MOD_NAME="CompactWorkTab"
 
 # Repository variables
 
