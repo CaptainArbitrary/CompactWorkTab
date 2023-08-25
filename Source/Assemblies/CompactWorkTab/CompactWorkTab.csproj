@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net472</TargetFramework>
+        <AssemblyVersion>0.0.0</AssemblyVersion>
+        <OutputPath>..\..\..\1.4\Assemblies</OutputPath>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <LangVersion>7.3</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Krafs.Rimworld.Ref" Version="1.4.3704" />
+      <PackageReference Include="Lib.Harmony" Version="2.2.2" ExcludeAssets="runtime" />
+    </ItemGroup>
+
+
+</Project>
