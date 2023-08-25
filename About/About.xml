@@ -2,7 +2,7 @@
   <packageId>CaptainArbitrary.CompactWorkTab</packageId>
   <name>Compact Work Tab</name>
   <author>CaptainArbitrary</author>
-  <description/>
+  <description>Adds vertical column labels and scroll-wheel support to make the Work tab a little more user-friendly.</description>
   <modVersion>0.0.0</modVersion>
   <url>https://github.com/CaptainArbitrary/CompactWorkTab</url>
   <supportedVersions>
