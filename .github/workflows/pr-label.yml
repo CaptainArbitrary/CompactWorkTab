@@ -1,0 +1,29 @@
+name: "pr-label"
+
+on:
+  pull_request:
+    types: [ opened, labeled, unlabeled, synchronize ]
+    branches: [ main ]
+
+concurrency:
+  group: "pr-label-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+
+  pr-label:
+
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+
+    - uses: mheap/github-action-required-labels@v5
+      with:
+        labels: "chore, bug, enhancement, feature, release"
+        mode: exactly
+        count: 1
+        add_comment: true
+        message: "This pull request should not be merged because {{ errorString }} {{ count }} of `{{ provided }}` is required."
+        token: ${{ secrets.GITHUB_TOKEN }}
