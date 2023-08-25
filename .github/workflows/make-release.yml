@@ -1,0 +1,205 @@
+name: "make-release"
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: "Release type"
+        required: true
+        type: choice
+        options:
+        - "patch"
+        - "minor"
+        - "major"
+        default: "patch"
+
+concurrency:
+  group: "make-release-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+
+  make-release:
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+
+#region Setup
+
+    - id: checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - uses: fregante/setup-git-user@v2
+
+    - id: increment-version
+      uses: reecetech/version-increment@2023.4.1
+      with:
+        scheme: semver
+        increment: ${{ inputs.release_type }}
+
+    - run: git checkout -b "release/${{ steps.increment-version.outputs.version }}"
+
+#endregion
+
+#region Increment mod version
+
+    - uses: Mudlet/xmlstarlet-action@v1.1
+      with:
+        args: ed -P -O -L --update "/ModMetaData/modVersion" -v "${{ steps.increment-version.outputs.version }}" "About/About.xml"
+
+    - run: git add "About/About.xml"
+    - run: git commit -m "Increment modVersion to ${{ steps.increment-version.outputs.version }}"
+
+#endregion
+
+#region Increment assembly version and build
+
+    - id: increment-assembly-version
+      uses: Mudlet/xmlstarlet-action@v1.1
+      with:
+        args: ed -P -O -L --update "/Project/PropertyGroup[1]/AssemblyVersion" -v "${{ steps.increment-version.outputs.version }}.0" "${{ vars.CSPROJ_PATH }}"
+
+    - run: git add ${{ vars.CSPROJ_PATH }}
+
+    - uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - run: dotnet restore ${{ vars.SLN_PATH }}
+    - run: dotnet build ${{ vars.SLN_PATH }} --configuration Release --no-restore
+
+    - run: git add ${{ vars.ASSEMBLY_PATH }}
+    - run: git commit -m "Increment assembly version to ${{ steps.increment-version.outputs.version }}"
+
+#endregion
+
+#region Update CHANGELOG.txt
+
+    - id: update-changelog-txt
+      uses: mikepenz/release-changelog-builder-action@v4
+      with:
+        configuration: ".github/workflows/configurations/changelog-txt.json"
+        fromTag: ${{ steps.increment-version.outputs.current-version }}
+        toTag: ${{ github.ref }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - uses: DamianReeves/write-file-action@v1.2
+      with:
+        path: CHANGELOG.txt.temp
+        write-mode: overwrite
+        contents: "Release ${{ steps.increment-version.outputs.version }}\n\n${{ steps.update-changelog-txt.outputs.changelog }}"
+
+    - run: echo -e "$(cat CHANGELOG.txt.temp)\n\n$(cat CHANGELOG.txt)" > CHANGELOG.txt
+    - run: awk -v RS= -v ORS='\n\n' '1' CHANGELOG.txt > CHANGELOG.txt.temp
+    - run: mv CHANGELOG.txt.temp CHANGELOG.txt
+
+    - run: git add CHANGELOG.txt
+
+#region Update CHANGELOG.bbcode
+
+    - id: update-changelog-bbcode
+      uses: mikepenz/release-changelog-builder-action@v4
+      with:
+        configuration: ".github/workflows/configurations/changelog-bbcode.json"
+        fromTag: ${{ steps.increment-version.outputs.current-version }}
+        toTag: ${{ github.ref }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - uses: DamianReeves/write-file-action@v1.2
+      with:
+        path: CHANGELOG.bbcode.temp
+        write-mode: overwrite
+        contents: "[h1]Release ${{ steps.increment-version.outputs.version }}[/h1]\n\n${{ steps.update-changelog-bbcode.outputs.changelog }}"
+
+    - run: echo -e "$(cat CHANGELOG.bbcode.temp)\n\n$(cat CHANGELOG.bbcode)" > CHANGELOG.bbcode
+    - run: awk -v RS= -v ORS='\n\n' '1' CHANGELOG.bbcode > CHANGELOG.bbcode.temp
+    - run: mv CHANGELOG.bbcode.temp CHANGELOG.bbcode
+
+    - run: git add CHANGELOG.bbcode
+
+#region Update CHANGELOG.md
+
+    - id: update-changelog-md
+      uses: mikepenz/release-changelog-builder-action@v4
+      with:
+        configuration: ".github/workflows/configurations/changelog-md.json"
+        fromTag: ${{ steps.increment-version.outputs.current-version }}
+        toTag: ${{ github.ref }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - uses: DamianReeves/write-file-action@v1.2
+      with:
+        path: CHANGELOG.md.temp
+        write-mode: overwrite
+        contents: "## Release ${{ steps.increment-version.outputs.version }}\n\n${{ steps.update-changelog-md.outputs.changelog }}"
+
+    - run: echo -e "$(cat CHANGELOG.md.temp)\n\n$(cat CHANGELOG.md)" > CHANGELOG.md
+    - run: awk -v RS= -v ORS='\n\n' '1' CHANGELOG.md > CHANGELOG.md.temp
+    - run: mv CHANGELOG.md.temp CHANGELOG.md
+
+    - run: git add CHANGELOG.md
+
+#endregion
+
+#region Commit CHANGELOG files
+
+    - run: git commit -m "Update CHANGELOGs for version ${{ steps.increment-version.outputs.version }}"
+
+#endregion
+
+#region Push release branch to origin
+
+    - run: git push --set-upstream origin "release/${{ steps.increment-version.outputs.version }}"
+
+#endregion
+
+#region Create and merge pull request
+
+    - id: create-pull-request
+      run: gh pr create --title "Release ${{ steps.increment-version.outputs.version }}" --body "" --label "release"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - run: gh pr merge --merge --delete-branch
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+#endregion
+
+#region Create and push release tag
+
+    - run: git tag ${{ steps.increment-version.outputs.version }}
+    - run: git push origin ${{ steps.increment-version.outputs.version }}
+
+#endregion
+
+#region Create release
+
+    - id: generate-changelog
+      uses: mikepenz/release-changelog-builder-action@v4
+      with:
+        configuration: ".github/workflows/configurations/changelog-github.json"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - run: zip -r "${{ vars.MOD_NAME }}-${{ steps.increment-version.outputs.version }}.zip" ${{ vars.ZIP_CONTENTS }}
+
+    - uses: ncipollo/release-action@v1.12.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        artifactErrorsFailBuild: true
+        tag: ${{ steps.increment-version.outputs.version }}
+        makeLatest: true
+        body: ${{ steps.generate-changelog.outputs.changelog }}
+        artifacts: "${{ vars.MOD_NAME }}-${{ steps.increment-version.outputs.version }}.zip"
+
+#endregion

@@ -1,0 +1,23 @@
+{
+  "categories": [
+    {
+      "title": "New Features",
+      "labels": [ "feature" ]
+    },
+    {
+      "title": "Enhancements",
+      "labels": [ "enhancement" ]
+    },
+    {
+      "title": "Bug Fixes",
+      "labels": [ "bug" ]
+    }
+  ],
+  "sort": {
+    "order": "ASC",
+    "on_property": "mergedAt"
+  },
+  "template": "${{CHANGELOG}}",
+  "pr_template": "${{TITLE}} (PR #${{NUMBER}})\n${{BODY}}\n\n",
+  "empty_template": "No changes."
+}
