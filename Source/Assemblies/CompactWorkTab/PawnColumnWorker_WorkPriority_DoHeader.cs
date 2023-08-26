@@ -13,13 +13,7 @@ namespace CompactWorkTab
         private static readonly Texture2D SortingIcon = ContentFinder<Texture2D>.Get("UI/Icons/Sorting");
         private static readonly Texture2D SortingDescendingIcon = ContentFinder<Texture2D>.Get("UI/Icons/SortingDescending");
 
-        private static readonly MethodInfo GetHeaderTipMethod = AccessTools.Method(AccessTools.TypeByName("PawnColumnWorker_WorkPriority"), "GetHeaderTip");
-        private static readonly MethodInfo HeaderClickedMethod = AccessTools.Method(AccessTools.TypeByName("PawnColumnWorker_WorkPriority"), "HeaderClicked");
-
-        private static readonly MethodInfo GUIClipUnclipVector2 = AccessTools.Method(AccessTools.TypeByName("GUIClip"), "Unclip_Vector2");
-        private static readonly MethodInfo GUIClipGetTopRect = AccessTools.Method(AccessTools.TypeByName("GUIClip"), "GetTopRect");
-
-        static bool Prefix(PawnColumnWorker __instance, Rect rect, PawnTable table)
+        static bool Prefix(PawnColumnWorker_WorkPriority __instance, Rect rect, PawnTable table)
         {
             MouseoverSounds.DoRegion(rect);
 
@@ -32,10 +26,10 @@ namespace CompactWorkTab
             if (Mouse.IsOver(rect))
             {
                 Widgets.DrawHighlight(rect);
-                string headerTip = (string)GetHeaderTipMethod.Invoke(__instance, new object[] { table });
+                string headerTip = __instance.GetHeaderTip(table);
                 if (!headerTip.NullOrEmpty()) TooltipHandler.TipRegion(rect, headerTip);
             }
-            if (Widgets.ButtonInvisible(rect)) HeaderClickedMethod.Invoke(__instance, new object[] { rect, table });
+            if (Widgets.ButtonInvisible(rect)) __instance.HeaderClicked(rect, table);
 
             string label = __instance.def.workType.labelShort.CapitalizeFirst();
             DoVerticalLabel(rect, label);
@@ -47,8 +41,8 @@ namespace CompactWorkTab
             Matrix4x4 matrix = GUI.matrix;
             GUI.matrix = Matrix4x4.identity;
 
-            Vector2 unclippedPosition = (Vector2)GUIClipUnclipVector2.Invoke(null, new[] { (object)Vector2.zero });
-            Rect topRect = (Rect)GUIClipGetTopRect.Invoke(null, null);
+            Vector2 unclippedPosition = GUIClip.Unclip(Vector2.zero);
+            Rect topRect = GUIClip.GetTopRect();
 
             GUI.matrix = matrix;
             GUI.matrix *= Matrix4x4.TRS(unclippedPosition, Quaternion.Euler(0f, 0f, -90), Vector3.one);
