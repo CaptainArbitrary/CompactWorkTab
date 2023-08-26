@@ -15,6 +15,8 @@ namespace CompactWorkTab
 
         static bool Prefix(PawnColumnWorker_WorkPriority __instance, Rect rect, PawnTable table)
         {
+            if (!ModSettings.DrawLabelsVertically) return true;
+
             MouseoverSounds.DoRegion(rect);
 
             if (table.SortingBy == __instance.def)

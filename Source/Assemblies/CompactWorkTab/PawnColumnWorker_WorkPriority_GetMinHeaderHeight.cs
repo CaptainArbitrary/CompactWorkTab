@@ -8,6 +8,8 @@ namespace CompactWorkTab
     {
         static void Postfix(ref int __result, PawnTable table)
         {
+            if (!ModSettings.DrawLabelsVertically) return;
+
             if (Cache.MinHeaderHeight == default) Cache.Recache(table);
             __result = Cache.MinHeaderHeight;
         }
