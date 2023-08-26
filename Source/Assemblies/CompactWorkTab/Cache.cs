@@ -30,7 +30,7 @@ namespace CompactWorkTab
                     minHeaderHeightAsFloat = s.x;
                 }
             }
-            MinHeaderHeight = Mathf.CeilToInt(minHeaderHeightAsFloat += GenUI.GapTiny);
+            MinHeaderHeight = Mathf.CeilToInt(minHeaderHeightAsFloat + GenUI.GapTiny);
         }
     }
 }
