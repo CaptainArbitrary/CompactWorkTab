@@ -11,6 +11,8 @@ namespace CompactWorkTab
     {
         public static void Postfix(PawnColumnWorker_WorkPriority __instance, Rect rect, Pawn pawn, PawnTable table)
         {
+            if (!ModSettings.UseScrollWheel) return;
+
             if (!Mouse.IsOver(rect) || pawn.WorkTypeIsDisabled(__instance.def.workType)) return;
 
             if (Event.current.type == EventType.ScrollWheel)
