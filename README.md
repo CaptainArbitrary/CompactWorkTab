@@ -40,7 +40,17 @@ And as a bonus feature, **free gratis**, the mod enables scroll-wheel support fo
 
 # Compatibility
 
-This mod is compatible with [Priority Master](https://steamcommunity.com/sharedfiles/filedetails/?id=1994006442) and with [Grouped Pawns Lists](https://steamcommunity.com/sharedfiles/filedetails/?id=2340773428). It's _technically_ also compatible with [Fluffy's Work Tab](https://steamcommunity.com/sharedfiles/filedetails/?id=725219116) (from which this mod took inspiration), but if you run them both at the same time Fluffy's mod will override the functionality of this one, so I recommend you don't do that.
+This mod is has been tested and found to be nicely compatible with [Numbers](https://steamcommunity.com/sharedfiles/filedetails/?id=1414302321), [Priority Master](https://steamcommunity.com/sharedfiles/filedetails/?id=1994006442) and [Grouped Pawns Lists](https://steamcommunity.com/sharedfiles/filedetails/?id=2340773428). It's _technically_ also compatible with [Fluffy's Work Tab](https://steamcommunity.com/sharedfiles/filedetails/?id=725219116) (from which this mod took inspiration), but if you run them both at the same time Fluffy's mod will override the functionality of this one, so I recommend you don't do that.
+
+# A Note about Numbers
+
+Because of how Numbers works, this mod interacts in an interesting way with it. If your Numbers tab includes work types, the work type column headers will be drawn vertically. Here's Numbers without this mod:
+
+![Numbers](.github/README/Numbers_without_Vertical_Labels.png)
+
+and here's Numbers with this mod:
+
+![Numbers with Compact Work Tab](.github/README/Interaction_with_Numbers.png)
 
 # Acknowledgments
 
