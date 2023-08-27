@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patch>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs</xpath>
+    <value>
+      <PawnTableGrouped.CompatibilityInfoDef>
+        <defName>captainarbitrary_compactworktab</defName>
+        <packageId>captainarbitrary.compactworktab</packageId>
+        <modName>Compact Work Tab</modName>
+        <tables>
+          <li>
+            <name>Work</name>
+            <compatibility>Supported</compatibility>
+            <config>
+              <allowHScroll>true</allowHScroll>
+            </config>
+          </li>
+        </tables>
+      </PawnTableGrouped.CompatibilityInfoDef>
+    </value>
+  </Operation>
+</Patch>
