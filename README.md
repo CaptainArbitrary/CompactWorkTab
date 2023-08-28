@@ -1,4 +1,8 @@
 <p align="center">
+<img alt="" src="About/Preview.png">
+</p>
+
+<p align="center">
   <a href="https://rimworldgame.com/">
     <img alt="Built for RimWorld" src="https://img.shields.io/badge/dynamic/xml?url=https%3A%2F%2Fraw.githubusercontent.com%2FCaptainArbitrary%2FCompactWorkTab%2Fmain%2FAbout%2FAbout.xml&query=%2FModMetaData%2FsupportedVersions%2Fli%5Blast()%5D&label=Built%20for%20RimWorld&style=for-the-badge" />
   </a>
