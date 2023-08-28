@@ -1,3 +1,25 @@
+## Release 1.0.1
+
+### New Features
+
+**Added mod options** ([PR #16](https://github.com/CaptainArbitrary/CompactWorkTab/pull/16))
+
+### Enhancements
+
+**Used Krafs Publicizer to eliminate some Invoke() calls and improve performance** ([PR #15](https://github.com/CaptainArbitrary/CompactWorkTab/pull/15))
+
+**Patched CalculateHeaderHeight instead of GetMinHeaderHeight** ([PR #17](https://github.com/CaptainArbitrary/CompactWorkTab/pull/17))
+
+PawnTable.CalculateHeaderHeight is called once while PawnColumnWorker_WorkPriority is called N times where N is the number of work priority columns in the table. We only need one.
+
+**Added compatibility with Grouped Pawns Lists** ([PR #19](https://github.com/CaptainArbitrary/CompactWorkTab/pull/19))
+
+See https://steamcommunity.com/sharedfiles/filedetails/?id=2340773428
+
+### Bug Fixes
+
+**Fixed erroneous += operator in Cache.cs** ([PR #13](https://github.com/CaptainArbitrary/CompactWorkTab/pull/13))
+
 ## Release 1.0.0
 
 _No changes._
