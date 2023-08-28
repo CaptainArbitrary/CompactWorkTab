@@ -1,4 +1,8 @@
 <p align="center">
+<img alt="" src="About/Preview.png">
+</p>
+
+<p align="center">
   <a href="https://rimworldgame.com/">
     <img alt="Built for RimWorld" src="https://img.shields.io/badge/dynamic/xml?url=https%3A%2F%2Fraw.githubusercontent.com%2FCaptainArbitrary%2FCompactWorkTab%2Fmain%2FAbout%2FAbout.xml&query=%2FModMetaData%2FsupportedVersions%2Fli%5Blast()%5D&label=Built%20for%20RimWorld&style=for-the-badge" />
   </a>
@@ -40,7 +44,7 @@ And as a bonus feature, **free gratis**, the mod enables scroll-wheel support fo
 
 # Compatibility
 
-This mod is has been tested and found to be nicely compatible with [Numbers](https://steamcommunity.com/sharedfiles/filedetails/?id=1414302321), [Priority Master](https://steamcommunity.com/sharedfiles/filedetails/?id=1994006442) and [Grouped Pawns Lists](https://steamcommunity.com/sharedfiles/filedetails/?id=2340773428). It's _technically_ also compatible with [Fluffy's Work Tab](https://steamcommunity.com/sharedfiles/filedetails/?id=725219116) (from which this mod took inspiration), but if you run them both at the same time Fluffy's mod will override the functionality of this one, so I recommend you don't do that.
+This mod has been tested and found to be nicely compatible with [Numbers](https://steamcommunity.com/sharedfiles/filedetails/?id=1414302321), [Priority Master](https://steamcommunity.com/sharedfiles/filedetails/?id=1994006442) and [Grouped Pawns Lists](https://steamcommunity.com/sharedfiles/filedetails/?id=2340773428). It's _technically_ also compatible with [Fluffy's Work Tab](https://steamcommunity.com/sharedfiles/filedetails/?id=725219116) (from which this mod took inspiration), but if you run them both at the same time Fluffy's mod will override the functionality of this one, so I recommend you don't do that.
 
 # A Note about Numbers
 
