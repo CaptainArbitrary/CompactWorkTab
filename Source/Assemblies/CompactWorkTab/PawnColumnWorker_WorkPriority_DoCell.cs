@@ -37,7 +37,8 @@ namespace CompactWorkTab
                     pawn.workSettings.SetPriority(__instance.def.workType, newPriority);
                     SoundDefOf.DragSlider.PlayOneShotOnCamera();
                 }
-                else
+
+                if (Event.current.delta.y < 0)
                 {
                     if (Find.PlaySettings.useWorkPriorities)
                     {
