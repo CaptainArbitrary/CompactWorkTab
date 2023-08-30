@@ -25,6 +25,7 @@ namespace CompactWorkTab
                 if (column.workerClass != typeof(PawnColumnWorker_WorkPriority)) continue;
                 string l = column.workType.labelShort.CapitalizeFirst();
                 Vector2 s = Text.CalcSize(l);
+                s.x += GenUI.GapTiny * 2;
                 if (s.x > minHeaderHeightAsFloat)
                 {
                     minHeaderHeightAsFloat = s.x;
