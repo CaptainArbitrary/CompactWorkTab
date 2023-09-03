@@ -1,3 +1,18 @@
+## Release 1.1.0
+
+### New Features
+
+**Added an experimental option to lay out labels at a 60° angle** ([PR #29](https://github.com/CaptainArbitrary/CompactWorkTab/pull/29))
+
+- The option is off by default
+- With the option off, the mod behaves in exactly the same way it did before
+- With it on, column labels are inclined to a 60° angle
+- Also, header highlighting is disabled if inclined headers are turned on
+
+### Enhancements
+
+**Add GapTiny × 2 padding to Cache.MinHeaderHeight** ([PR #28](https://github.com/CaptainArbitrary/CompactWorkTab/pull/28))
+
 ## Release 1.0.1
 
 ### New Features
