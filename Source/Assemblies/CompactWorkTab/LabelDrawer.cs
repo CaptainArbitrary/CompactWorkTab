@@ -80,34 +80,51 @@ namespace CompactWorkTab
 
         public static void DrawInclinedLabel(Rect rect, string label)
         {
-            Vector2 pivotPoint = new Vector2(rect.center.x + rect.width/2 + GenUI.GapTiny, rect.center.y - GenUI.GapTiny);
+            // Determine the pivot point for the rotation. This is adjusted slightly
+            // based on the center of the rect and some additional space defined by 'GenUI.GapTiny'.
+            Vector2 pivotPoint = new Vector2(rect.center.x + rect.width / 2 + GenUI.GapTiny, rect.center.y - GenUI.GapTiny);
 
+            // Define a small rectangle around the pivot point for visualization.
+            // This is useful if you'd like to visually debug or mark the pivot point.
             Rect pivotRect = new Rect(0f, 0f, 4f, 4f) { center = pivotPoint };
 
+            // Store the current transformation matrix of the GUI to restore it later.
             Matrix4x4 originalMatrix = GUI.matrix;
+
+            // Reset the GUI matrix to the identity matrix to start fresh.
             GUI.matrix = Matrix4x4.identity;
+
+            // Rotate the GUI around the 'pivotPoint' by -60 degrees.
             GUIUtility.RotateAroundPivot(-60f, pivotPoint);
+
+            // Multiply the original matrix by the new transformation to apply the rotation.
             GUI.matrix = originalMatrix * GUI.matrix;
 
+            // Define a rectangle for the label, placing it centered on the pivot rectangle.
             Rect labelRect = new Rect(0f, 0f, rect.height, rect.width) { center = pivotRect.center };
 
-            Color color = GUI.color;
-            TextAnchor anchor = Text.Anchor;
-            GameFont font = Text.Font;
-            bool wordWrap = Text.WordWrap;
+            // Backup the current GUI properties to restore them after drawing the label.
+            Color originalColor = GUI.color;
+            TextAnchor originalAnchor = Text.Anchor;
+            GameFont originalFont = Text.Font;
+            bool originalWordWrap = Text.WordWrap;
 
+            // Set the properties for the inclined label.
             GUI.color = new Color(.8f, .8f, .8f);
             Text.Anchor = TextAnchor.LowerLeft;
             Text.Font = GameFont.Small;
             Text.WordWrap = false;
 
+            // Draw the inclined label.
             Widgets.Label(labelRect, label);
 
-            Text.WordWrap = wordWrap;
-            Text.Font = font;
-            GUI.color = color;
-            Text.Anchor = anchor;
+            // Restore the original GUI properties.
+            Text.WordWrap = originalWordWrap;
+            Text.Font = originalFont;
+            GUI.color = originalColor;
+            Text.Anchor = originalAnchor;
 
+            // Reset the GUI matrix to its original state for subsequent GUI operations.
             GUI.matrix = originalMatrix;
         }
     }
