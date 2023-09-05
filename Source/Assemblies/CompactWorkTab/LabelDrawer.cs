@@ -1,53 +1,81 @@
-﻿using System.Drawing.Drawing2D;
-using UnityEngine;
+﻿using UnityEngine;
 using Verse;
+
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
 
 namespace CompactWorkTab
 {
+    [HotSwappable]
     public static class LabelDrawer
     {
         public static void DrawVerticalLabel(Rect rect, string label)
         {
-            Matrix4x4 matrix = GUI.matrix;
+            // Store the current transformation matrix of the GUI to restore it later.
+            Matrix4x4 originalMatrix = GUI.matrix;
+
+            // Reset the GUI matrix to the identity matrix.
             GUI.matrix = Matrix4x4.identity;
 
+            // Calculate the unclipped position of the current UI element in screen-space coordinates.
             Vector2 unclippedPosition = GUIClip.Unclip(Vector2.zero);
+
+            // Retrieve the topmost clipping rectangle in local GUI coordinates.
             Rect topRect = GUIClip.GetTopRect();
 
-            GUI.matrix = matrix;
-            GUI.matrix *= Matrix4x4.TRS(unclippedPosition, Quaternion.Euler(0f, 0f, -90), Vector3.one);
-            GUI.matrix *= Matrix4x4.TRS(new Vector2(-rect.yMax - unclippedPosition.x, rect.xMin - unclippedPosition.y), Quaternion.identity, Vector3.one);
+            // Restore the original matrix for subsequent operations.
+            GUI.matrix = originalMatrix;
 
+            // Create a translation matrix to shift the pivot point to 'unclippedPosition'.
+            Matrix4x4 translationToPivot = Matrix4x4.TRS(unclippedPosition, Quaternion.identity, Vector3.one);
+
+            // Create a rotation matrix for a 90-degree counter-clockwise rotation.
+            Matrix4x4 rotation = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, -90f), Vector3.one);
+
+            // Create another translation matrix to shift the pivot back from 'unclippedPosition'.
+            Matrix4x4 translationFromPivot = Matrix4x4.TRS(new Vector2(-rect.yMax - unclippedPosition.x, rect.xMin - unclippedPosition.y), Quaternion.identity, Vector3.one);
+
+            // Apply the transformations.
+            GUI.matrix *= translationToPivot * rotation * translationFromPivot;
+
+            // Calculate the necessary clipping values based on the rect and topRect.
             float leftClip = Mathf.Min(rect.xMin, 0);
             float rightClip = Mathf.Max(rect.xMax - topRect.width, 0);
             float topClip = Mathf.Min(rect.yMin, 0);
             float bottomClip = Mathf.Max(rect.yMax - topRect.height, 0);
 
+            // Define the clipping rectangle.
             Rect clipRect = new Rect(bottomClip, -leftClip, rect.height + topClip - bottomClip, rect.width + leftClip - rightClip);
+
+            // Begin the custom GUI clipping.
             GUI.BeginClip(clipRect);
 
-            Rect labelRect = new Rect(-bottomClip, leftClip, rect.height, rect.width);
+            // Define the rectangle for the label.
+            Rect labelRect = new Rect(-bottomClip + GenUI.GapTiny, leftClip, rect.height, rect.width + GenUI.GapTiny);
 
-            labelRect.x += GenUI.GapTiny;
-            labelRect.width += GenUI.GapTiny;
+            // Backup the current GUI properties.
+            Color originalColor = GUI.color;
+            TextAnchor originalAnchor = Text.Anchor;
+            GameFont originalFont = Text.Font;
 
-            Color color = GUI.color;
-            TextAnchor anchor = Text.Anchor;
-            GameFont font = Text.Font;
-
+            // Set the properties for the label.
             GUI.color = new Color(.8f, .8f, .8f);
             Text.Anchor = TextAnchor.MiddleLeft;
             Text.Font = GameFont.Small;
 
+            // Draw the label.
             Widgets.Label(labelRect, label);
 
-            Text.Font = font;
-            GUI.color = color;
-            Text.Anchor = anchor;
+            // Restore the original GUI properties.
+            Text.Font = originalFont;
+            GUI.color = originalColor;
+            Text.Anchor = originalAnchor;
 
+            // End the custom GUI clipping.
             GUI.EndClip();
 
-            GUI.matrix = matrix;
+            // Restore the original transformation matrix for subsequent GUI operations.
+            GUI.matrix = originalMatrix;
         }
 
         public static void DrawInclinedLabel(Rect rect, string label)
