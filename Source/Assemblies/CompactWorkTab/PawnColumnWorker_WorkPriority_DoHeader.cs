@@ -12,7 +12,7 @@ namespace CompactWorkTab
         private static readonly Texture2D SortingIcon = ContentFinder<Texture2D>.Get("UI/Icons/Sorting");
         private static readonly Texture2D SortingDescendingIcon = ContentFinder<Texture2D>.Get("UI/Icons/SortingDescending");
 
-        static bool Prefix(PawnColumnWorker_WorkPriority __instance, Rect rect, PawnTable table)
+        private static bool Prefix(PawnColumnWorker_WorkPriority __instance, Rect rect, PawnTable table)
         {
             if (!ModSettings.DrawLabelsVertically) return true;
 
@@ -30,17 +30,14 @@ namespace CompactWorkTab
                 string headerTip = __instance.GetHeaderTip(table);
                 if (!headerTip.NullOrEmpty()) TooltipHandler.TipRegion(rect, headerTip);
             }
+
             if (Widgets.ButtonInvisible(rect)) __instance.HeaderClicked(rect, table);
 
             string label = __instance.def.workType.labelShort.CapitalizeFirst();
             if (ModSettings.DrawInclinedLabels)
-            {
                 LabelDrawer.DrawInclinedLabel(rect, label);
-            }
             else
-            {
                 LabelDrawer.DrawVerticalLabel(rect, label);
-            }
             return false;
         }
     }
