@@ -101,14 +101,13 @@ namespace CompactWorkTab
             // Restore the original matrix for subsequent operations
             GUI.matrix = originalMatrix;
 
-            // Construct the rotation transformation around the pivot
-            // Step 1: Translate the matrix so the pivot point becomes the new origin
+            // Translate the matrix so the pivot point becomes the new origin
             GUI.matrix *= Matrix4x4.TRS(pivotPoint, Quaternion.identity, Vector3.one);
 
-            // Step 2: Rotate the matrix by -60 degrees around the new origin (pivotPoint)
+            // Rotate the matrix by -60 degrees around the new origin (pivotPoint)
             GUI.matrix *= Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, -60f), Vector3.one);
 
-            // Step 3: Translate the matrix back to its original position
+            // Translate the matrix back to its original position
             GUI.matrix *= Matrix4x4.TRS(-pivotPoint, Quaternion.identity, Vector3.one);
 
             // Backup the current GUI properties
