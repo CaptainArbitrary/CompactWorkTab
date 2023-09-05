@@ -80,51 +80,64 @@ namespace CompactWorkTab
 
         public static void DrawInclinedLabel(Rect rect, string label)
         {
-            // Determine the pivot point for the rotation. This is adjusted slightly
-            // based on the center of the rect and some additional space defined by 'GenUI.GapTiny'.
-            Vector2 pivotPoint = new Vector2(rect.center.x + rect.width / 2 + GenUI.GapTiny, rect.center.y - GenUI.GapTiny);
+            // Move the rectangle half its width to the right
+            rect.x += rect.width / 2f;
 
-            // Define a small rectangle around the pivot point for visualization.
-            // This is useful if you'd like to visually debug or mark the pivot point.
-            Rect pivotRect = new Rect(0f, 0f, 4f, 4f) { center = pivotPoint };
+            // Calculate the size of the label
+            Vector2 labelSize = Text.CalcSize(label);
 
-            // Store the current transformation matrix of the GUI to restore it later.
+            // Create a rectangle for the rotated label centered on the original rectangle
+            Rect rotatedRect = new Rect(0f, 0f, rect.height, labelSize.y) { center = rect.center };
+
+            // Backup the original GUI matrix
             Matrix4x4 originalMatrix = GUI.matrix;
 
-            // Reset the GUI matrix to the identity matrix to start fresh.
+            // Reset the GUI matrix to identity (no transformations)
             GUI.matrix = Matrix4x4.identity;
 
-            // Rotate the GUI around the 'pivotPoint' by -60 degrees.
-            GUIUtility.RotateAroundPivot(-60f, pivotPoint);
+            // Set the pivot point for rotation to the center of the rotated rectangle
+            Vector2 pivotPoint = GUIClip.Unclip(rotatedRect.center);
 
-            // Multiply the original matrix by the new transformation to apply the rotation.
-            GUI.matrix = originalMatrix * GUI.matrix;
+            // Restore the original matrix for subsequent operations
+            GUI.matrix = originalMatrix;
 
-            // Define a rectangle for the label, placing it centered on the pivot rectangle.
-            Rect labelRect = new Rect(0f, 0f, rect.height, rect.width) { center = pivotRect.center };
+            // Construct the rotation transformation around the pivot
+            // Step 1: Translate the matrix so the pivot point becomes the new origin
+            GUI.matrix *= Matrix4x4.TRS(pivotPoint, Quaternion.identity, Vector3.one);
 
-            // Backup the current GUI properties to restore them after drawing the label.
+            // Step 2: Rotate the matrix by -60 degrees around the new origin (pivotPoint)
+            GUI.matrix *= Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, -60f), Vector3.one);
+
+            // Step 3: Translate the matrix back to its original position
+            GUI.matrix *= Matrix4x4.TRS(-pivotPoint, Quaternion.identity, Vector3.one);
+
+            // Backup the current GUI properties
             Color originalColor = GUI.color;
             TextAnchor originalAnchor = Text.Anchor;
             GameFont originalFont = Text.Font;
             bool originalWordWrap = Text.WordWrap;
 
-            // Set the properties for the inclined label.
+            // Set GUI properties for the rotated label drawing
             GUI.color = new Color(.8f, .8f, .8f);
-            Text.Anchor = TextAnchor.LowerLeft;
+            Text.Anchor = TextAnchor.MiddleLeft;
             Text.Font = GameFont.Small;
             Text.WordWrap = false;
 
-            // Draw the inclined label.
-            Widgets.Label(labelRect, label);
+            // Draw the label in the rotated space
+            Widgets.Label(rotatedRect, label);
 
-            // Restore the original GUI properties.
+            // Underscore the label
+            Vector2 bottomRight = new Vector2(rotatedRect.xMax, rotatedRect.yMax);
+            Vector2 bottomLeft = new Vector2(rotatedRect.xMin, rotatedRect.yMax);
+            Widgets.DrawLine(bottomRight, bottomLeft, new Color(1f, 1f, 1f, 0.2f), 1f);
+
+            // Restore the original GUI properties
             Text.WordWrap = originalWordWrap;
             Text.Font = originalFont;
             GUI.color = originalColor;
             Text.Anchor = originalAnchor;
 
-            // Reset the GUI matrix to its original state for subsequent GUI operations.
+            // Reset the GUI matrix to its original state
             GUI.matrix = originalMatrix;
         }
     }
