@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Verse;
 
 // ReSharper disable CommentTypo
@@ -79,14 +79,33 @@ namespace CompactWorkTab
 
         public static void DrawInclinedLabel(Rect rect, string label)
         {
-            // Move the rectangle half its width to the right
-            rect.x += rect.width / 2f;
-
             // Calculate the size of the label
             Vector2 labelSize = Text.CalcSize(label);
 
             // Create a rectangle for the rotated label centered on the original rectangle
             Rect rotatedRect = new Rect(0f, 0f, rect.height, labelSize.y) { center = rect.center };
+
+            // Let's label the corners of rotatedRect. The top left corner is a. The top right corner is b.
+            // The bottom left corner is c. The bottom right corner is d. Our goal is to make c' match the target
+            // position after the 60-degree rotation, where the target position is (rect.center.x, rect.yMax).
+
+            Vector2 center = rotatedRect.center;
+            float theta = Mathf.Deg2Rad * 60; // Convert 60 degrees to radians
+
+            // Coordinates of point c relative to the center of the rotatedRect
+            Vector2 cRelative = new Vector2(-rotatedRect.width / 2, -rotatedRect.height / 2);
+
+            // Calculate where point c would land after a 60-degree rotation
+            Vector2 cPrime = new Vector2(
+                Mathf.Cos(theta) * cRelative.x - Mathf.Sin(theta) * cRelative.y + center.x,
+                Mathf.Sin(theta) * cRelative.x + Mathf.Cos(theta) * cRelative.y + center.y
+            );
+
+            // Calculate the required horizontal offset to make c' match the target position
+            float xOffset = (rect.x + rect.width / 2) - cPrime.x;
+
+            // Apply the offset to the rotatedRect
+            rotatedRect.x += xOffset;
 
             // Backup the original GUI matrix
             Matrix4x4 originalMatrix = GUI.matrix;
