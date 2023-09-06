@@ -6,7 +6,6 @@ using Verse;
 
 namespace CompactWorkTab
 {
-    [HotSwappable]
     public static class LabelDrawer
     {
         public static void DrawVerticalLabel(Rect rect, string label)
