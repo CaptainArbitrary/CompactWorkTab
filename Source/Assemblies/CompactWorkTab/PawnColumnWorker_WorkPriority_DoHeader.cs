@@ -9,9 +9,6 @@ namespace CompactWorkTab
     [HarmonyPatch(typeof(PawnColumnWorker_WorkPriority), nameof(PawnColumnWorker_WorkPriority.DoHeader))]
     public class PawnColumnWorker_WorkPriority_DoHeader
     {
-        private static readonly Texture2D SortingIcon = ContentFinder<Texture2D>.Get("UI/Icons/Sorting");
-        private static readonly Texture2D SortingDescendingIcon = ContentFinder<Texture2D>.Get("UI/Icons/SortingDescending");
-
         private static bool Prefix(PawnColumnWorker_WorkPriority __instance, Rect rect, PawnTable table)
         {
             if (!ModSettings.DrawLabelsVertically) return true;
@@ -20,7 +17,7 @@ namespace CompactWorkTab
 
             if (table.SortingBy == __instance.def)
             {
-                Texture2D tex = table.SortingDescending ? SortingDescendingIcon : SortingIcon;
+                Texture2D tex = table.SortingDescending ? Textures.SortingDescendingIcon : Textures.SortingIcon;
                 GUI.DrawTexture(new Rect(rect.xMax - tex.width - 1f, rect.yMax - tex.height - 1f, tex.width, tex.height), tex);
             }
 
