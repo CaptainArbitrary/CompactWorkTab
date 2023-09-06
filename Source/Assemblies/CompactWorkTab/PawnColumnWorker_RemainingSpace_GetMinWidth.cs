@@ -10,7 +10,7 @@ namespace CompactWorkTab
     {
         private static bool Prefix(PawnTable table, PawnColumnWorker_RemainingSpace __instance, ref int __result)
         {
-            if (!ModSettings.DrawLabelsVertically) return true;
+            if (!ModSettings.DrawInclinedLabels) return true;
 
             __result = Cache.MinHeaderHeight / 2;
 
