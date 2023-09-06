@@ -1,3 +1,13 @@
+## Release 1.1.1
+
+### Enhancements
+
+**Minor improvements to inclined labels** ([PR #31](https://github.com/CaptainArbitrary/CompactWorkTab/pull/31))
+
+- Significantly refactored the code and clarified the key algorithms
+- Repositioned inclined labels to make them less derpy looking
+- Added lines under the labels to make the table easier to read
+
 ## Release 1.1.0
 
 ### New Features
