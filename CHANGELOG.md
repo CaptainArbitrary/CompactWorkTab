@@ -1,3 +1,19 @@
+## Release 1.1.2
+
+### Enhancements
+
+**Moved texture loading out of DoHeader prefix and into a static class** ([PR #33](https://github.com/CaptainArbitrary/CompactWorkTab/pull/33))
+
+- Removed local fields SortingIcon and SortingDescendingIcon out of PawnColumnWorker_WorkPriority_DoHeader
+- Added them to a static Textures class
+- Changed references in PawnColumnWorker_WorkPriority_DoHeader to point to the Texture class instead of the local fields
+
+**Improved inclined column headers** ([PR #34](https://github.com/CaptainArbitrary/CompactWorkTab/pull/34))
+
+- Added a little extra space to the right-hand side of the work tab to make room for inclined labels
+- Improved the alignment of inclined labels over their columns (high-school trigonometry, baby)
+- Improved compatibility with Grouped Pawns Lists
+
 ## Release 1.1.1
 
 ### Enhancements
