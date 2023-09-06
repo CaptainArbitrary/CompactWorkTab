@@ -14,14 +14,14 @@ namespace CompactWorkTab
             // Store the current transformation matrix of the GUI to restore it later.
             Matrix4x4 originalMatrix = GUI.matrix;
 
+            // Retrieve the topmost clipping rectangle in local GUI coordinates.
+            Rect topRect = GUIClip.GetTopRect();
+
             // Reset the GUI matrix to the identity matrix.
             GUI.matrix = Matrix4x4.identity;
 
             // Calculate the unclipped position of the current UI element in screen-space coordinates.
             Vector2 unclippedPosition = GUIClip.Unclip(Vector2.zero);
-
-            // Retrieve the topmost clipping rectangle in local GUI coordinates.
-            Rect topRect = GUIClip.GetTopRect();
 
             // Restore the original matrix for subsequent operations.
             GUI.matrix = originalMatrix;
