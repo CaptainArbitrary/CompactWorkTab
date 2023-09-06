@@ -30,6 +30,16 @@
   </a>
 </p>
 
+# Release 1.1.2
+
+The **EXPERIMENTAL FEATURE** has been improved, with indicative lines under the headers, better header alignment and the resolution of some clipping problems. Compatibility with Grouped Pawns Lists has also been improved.
+
+![Inclined Labels](.github/README/Inclined_Labels.png)
+
+As a reminder, inclined labels are an **EXPERIMENTAL FEATURE**. That means two things: First, they're off by default; if you want to use them you have to go into the mod options and enable them. And second, expect bugs. Known issues so far include some odd interactions with Numbers. I plan to fix that soon, but I wanted to get this release out so you guys can start testing it for me.
+
+As always, good luck, and please report any bugs or strange behavior to https://dsc.gg/CaptainArbitrary.
+
 # Description
 
 If you have a smaller screen or mods that add a lot of work types (like my own [Many Jobs](https://steamcommunity.com/sharedfiles/filedetails/?id=3013527266) for instance) you may have encountered the heartbreak of the unreadable Work tab.
