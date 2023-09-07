@@ -34,7 +34,21 @@ namespace CompactWorkTab
             if (table.SortingBy == __instance.def)
             {
                 Texture2D tex = table.SortingDescending ? Textures.SortingDescendingIcon : Textures.SortingIcon;
-                GUI.DrawTexture(new Rect(rect.xMax - tex.width - 1f, rect.yMax - tex.height - 1f, tex.width, tex.height), tex);
+                Rect sortingTexRect;
+
+                switch (ModSettings.HeaderOrientation)
+                {
+                    case HeaderOrientation.Inclined:
+                        sortingTexRect = new Rect(rect.center.x - tex.width / 2f, rect.yMax - tex.height, tex.width, tex.height);
+                        break;
+                    case HeaderOrientation.Vertical:
+                    case HeaderOrientation.Horizontal:
+                    default:
+                        sortingTexRect = new Rect(rect.xMax - tex.width - 1f, rect.yMax - tex.height - 1f, tex.width, tex.height);
+                        break;
+                }
+
+                GUI.DrawTexture(sortingTexRect, tex);
             }
 
             if (Mouse.IsOver(rect))
