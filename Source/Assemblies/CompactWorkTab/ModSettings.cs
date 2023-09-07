@@ -24,9 +24,9 @@ namespace CompactWorkTab
             listing.CheckboxLabeled("Use scroll wheel to change work priorities", ref UseScrollWheel);
 
             listing.Label("Header Orientation:");
-            if (listing.RadioButton("Inclined", HeaderOrientation == HeaderOrientation.Inclined)) { HeaderOrientation = HeaderOrientation.Inclined; };
-            if (listing.RadioButton("Vertical", HeaderOrientation == HeaderOrientation.Vertical)) { HeaderOrientation = HeaderOrientation.Vertical; };
-            if (listing.RadioButton("Horizontal (RimWorld default)", HeaderOrientation == HeaderOrientation.Horizontal)) { HeaderOrientation = HeaderOrientation.Horizontal; };
+            if (listing.RadioButton("Inclined", HeaderOrientation == HeaderOrientation.Inclined)) HeaderOrientation = HeaderOrientation.Inclined;
+            if (listing.RadioButton("Vertical", HeaderOrientation == HeaderOrientation.Vertical)) HeaderOrientation = HeaderOrientation.Vertical;
+            if (listing.RadioButton("Horizontal (RimWorld default)", HeaderOrientation == HeaderOrientation.Horizontal)) HeaderOrientation = HeaderOrientation.Horizontal;
 
             listing.End();
         }
