@@ -17,6 +17,7 @@
         <Publicize Include="Assembly-CSharp:RimWorld.PawnColumnWorker.HeaderClicked"/>
         <Publicize Include="UnityEngine.IMGUIModule:UnityEngine.GUIClip.Unclip"/>
         <Publicize Include="UnityEngine.IMGUIModule:UnityEngine.GUIClip.GetTopRect"/>
+        <Publicize Include="Assembly-CSharp:RimWorld.PawnTable.def"/>
     </ItemGroup>
 
     <ItemGroup>

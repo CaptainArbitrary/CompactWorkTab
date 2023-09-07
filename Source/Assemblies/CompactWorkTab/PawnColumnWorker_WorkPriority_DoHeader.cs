@@ -12,6 +12,7 @@ namespace CompactWorkTab
         private static bool Prefix(PawnColumnWorker_WorkPriority __instance, Rect rect, PawnTable table)
         {
             if (!ModSettings.DrawLabelsVertically) return true;
+            if (table.def != PawnTableDefOf.Work) return true;
 
             MouseoverSounds.DoRegion(rect);
 
