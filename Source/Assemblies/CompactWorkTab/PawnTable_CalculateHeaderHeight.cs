@@ -8,7 +8,7 @@ namespace CompactWorkTab
     {
         static bool Prefix(PawnTable __instance, ref float __result)
         {
-            if (!ModSettings.DrawLabelsVertically) return true;
+            if (ModSettings.HeaderOrientation == HeaderOrientation.Horizontal) return true;
 
             if (Cache.MinHeaderHeight == default) Cache.Recache(__instance);
             __result = Cache.MinHeaderHeight;

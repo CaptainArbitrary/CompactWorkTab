@@ -6,34 +6,64 @@ namespace CompactWorkTab
     public class ModSettings : Verse.ModSettings
     {
         public static bool UseScrollWheel = true;
-        public static bool DrawLabelsVertically = true;
-        public static bool DrawInclinedLabels = false;
+        public static HeaderOrientation HeaderOrientation = HeaderOrientation.Inclined;
 
         public override void ExposeData()
         {
             Scribe_Values.Look(ref UseScrollWheel, "UseScrollWheel", true);
-            Scribe_Values.Look(ref DrawLabelsVertically, "DrawLabelsVertically", true);
-            Scribe_Values.Look(ref DrawInclinedLabels, "DrawInclinedLabels", false);
+            Scribe_Values.Look(ref HeaderOrientation, "HeaderOrientation", HeaderOrientation.Inclined);
 
             base.ExposeData();
         }
 
         public void DoSettingsWindowContents(Rect inRect)
         {
-            Listing_Standard listing = new Listing_Standard();
-            listing.Begin(inRect);
-            listing.CheckboxLabeled("Draw column labels vertically", ref DrawLabelsVertically);
-            listing.CheckboxLabeled("Use scroll wheel to change work priorities", ref UseScrollWheel);
+            Rect leftColumn = new Rect(inRect) { width = inRect.width / 3f };
+            Rect middleColumn = new Rect(inRect) { width = inRect.width / 3f, x = leftColumn.xMax };
+            Rect rightColumn = new Rect(inRect) { width = inRect.width / 3f, x = middleColumn.xMax };
 
-            listing.CheckboxLabeled("Draw labels at a 60° angle", ref DrawInclinedLabels);
+            Rect firstRow = new Rect(inRect) { height = GenUI.ListSpacing };
+            Widgets.CheckboxLabeled(firstRow, "Use scroll wheel to change work priorities:", ref UseScrollWheel);
 
-            Text.Font = GameFont.Tiny;
-            GUI.color = Color.gray;
-            listing.Label("This is an EXPERIMENTAL feature. Please report bugs at https://dsc.gg/CaptainArbitrary.");
-            GUI.color = Color.white;
-            Text.Font = GameFont.Small;
+            Rect secondRow = new Rect(inRect) { y = firstRow.yMax, height = GenUI.ListSpacing };
+            // Second row intentionally left blank
 
-            listing.End();
+            Rect thirdRow = new Rect(inRect) { y = secondRow.yMax, height = GenUI.ListSpacing };
+            DoRadioButtonAndTexture(leftColumn, thirdRow, "Inclined Headers", Textures.InclinedTexture, HeaderOrientation.Inclined);
+            DoRadioButtonAndTexture(middleColumn, thirdRow, "Vertical Headers", Textures.VerticalTexture, HeaderOrientation.Vertical);
+            DoRadioButtonAndTexture(rightColumn, thirdRow, "Horizontal Headers", Textures.HorizontalTexture, HeaderOrientation.Horizontal);
+        }
+
+        private static void DoRadioButtonAndTexture(Rect column, Rect row, string label, Texture texture, HeaderOrientation orientation)
+        {
+            // Radio Button
+            Vector2 labelSize = Text.CalcSize(label);
+            Rect radioButtonRect = new Rect(column.x, row.y, column.width, row.height)
+            {
+                width = labelSize.x + Widgets.RadioButOnTex.width,
+                x = column.center.x - (labelSize.x + Widgets.RadioButOnTex.width) / 2f
+            };
+            if (Widgets.RadioButtonLabeled(radioButtonRect, label, HeaderOrientation == orientation))
+                HeaderOrientation = orientation;
+
+            // Texture
+            Rect textureRow = new Rect(column) { y = row.yMax, height = texture.height + GenUI.Gap * 2f };
+            Rect textureRect = new Rect(textureRow)
+            {
+                width = texture.width,
+                height = texture.height,
+                center = textureRow.center
+            };
+            if (Event.current.type == EventType.MouseDown && textureRect.Contains(Event.current.mousePosition))
+            {
+                HeaderOrientation = orientation;
+                Event.current.Use();
+            }
+            GUI.DrawTexture(textureRect, texture, ScaleMode.ScaleToFit);
+
+            // Draw selection box if this orientation is selected
+            if (HeaderOrientation == orientation)
+                Widgets.DrawBox(textureRect);
         }
     }
 }
