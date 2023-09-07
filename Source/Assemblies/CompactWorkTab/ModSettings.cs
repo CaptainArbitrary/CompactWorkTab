@@ -34,7 +34,7 @@ namespace CompactWorkTab
             DoRadioButtonAndTexture(rightColumn, thirdRow, "Horizontal Headers", Textures.HorizontalTexture, HeaderOrientation.Horizontal);
         }
 
-        private void DoRadioButtonAndTexture(Rect column, Rect row, string label, Texture texture, HeaderOrientation orientation)
+        private static void DoRadioButtonAndTexture(Rect column, Rect row, string label, Texture texture, HeaderOrientation orientation)
         {
             // Radio Button
             Vector2 labelSize = Text.CalcSize(label);
