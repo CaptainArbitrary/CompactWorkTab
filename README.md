@@ -30,41 +30,29 @@
   </a>
 </p>
 
-# Release 1.1.2
-
-The **EXPERIMENTAL FEATURE** has been improved, with indicative lines under the headers, better header alignment and the resolution of some clipping problems. Compatibility with Grouped Pawns Lists has also been improved.
-
-![Inclined Labels](.github/README/Inclined_Labels.png)
-
-As a reminder, inclined labels are an **EXPERIMENTAL FEATURE**. That means two things: First, they're off by default; if you want to use them you have to go into the mod options and enable them. And second, expect bugs. Known issues so far include some odd interactions with Numbers. I plan to fix that soon, but I wanted to get this release out so you guys can start testing it for me.
-
-As always, good luck, and please report any bugs or strange behavior to https://dsc.gg/CaptainArbitrary.
-
 # Description
 
 If you have a smaller screen or mods that add a lot of work types (like my own [Many Jobs](https://steamcommunity.com/sharedfiles/filedetails/?id=3013527266) for instance) you may have encountered the heartbreak of the unreadable Work tab.
 
 ![Bad Work Tab](.github/README/Bad_Work_Tab.png)
 
-This mod is very simple. It rotates the column labels by 90° to make a crowded Work tab more usable.
+This mod is very simple. It rotates the column headers by 60° to make a crowded Work tab more usable.
 
 ![Nice Work Tab](.github/README/Nice_Work_Tab.png)
 
+Also included is the option to have vertically oriented column headers, for those who prefer an even more compact Work tab.
+
+![Vertical Column Headers](.github/README/Nice_Work_Tab_Vertical.png)
+
 And as a bonus feature, **free gratis**, the mod enables scroll-wheel support for incrementing or decrementing work priorities. Just put your cursor over a priority box and scroll up or down. If manual priorities are disabled, scrolling will toggle the work type for the selected pawn. If manual priorities are on, scrolling up will raise the work type's priority, and scrolling down will lower it.
+
+All mod settings can be changed via RimWorld's mod options menu.
 
 # Compatibility
 
 This mod has been tested and found to be nicely compatible with [Numbers](https://steamcommunity.com/sharedfiles/filedetails/?id=1414302321), [Priority Master](https://steamcommunity.com/sharedfiles/filedetails/?id=1994006442) and [Grouped Pawns Lists](https://steamcommunity.com/sharedfiles/filedetails/?id=2340773428). It's _technically_ also compatible with [Fluffy's Work Tab](https://steamcommunity.com/sharedfiles/filedetails/?id=725219116) (from which this mod took inspiration), but if you run them both at the same time Fluffy's mod will override the functionality of this one, so I recommend you don't do that.
 
-# A Note about Numbers
-
-Because of how Numbers works, this mod interacts in an interesting way with it. If your Numbers tab includes work types, the work type column headers will be drawn vertically. Here's Numbers without this mod:
-
-![Numbers](.github/README/Numbers_without_Vertical_Labels.png)
-
-and here's Numbers with this mod:
-
-![Numbers with Compact Work Tab](.github/README/Interaction_with_Numbers.png)
+Mods that add new work types to the game are fully compatible with Compact Work Tab.
 
 # Acknowledgments
 
