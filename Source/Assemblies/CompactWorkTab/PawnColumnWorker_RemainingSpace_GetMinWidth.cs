@@ -15,10 +15,9 @@ namespace CompactWorkTab
                 case HeaderOrientation.Horizontal:
                     return true;
                 case HeaderOrientation.Vertical:
-                    __result = Cache.MinHeaderHeight / 2;
-                    return false;
+                    return true;
                 case HeaderOrientation.Inclined:
-                    __result = Mathf.CeilToInt(Cache.MinHeaderHeight * Mathf.Sqrt(3f) / 2);
+                    __result = Mathf.CeilToInt(Cache.MinHeaderHeight * Mathf.Sqrt(3f) / 2f) / 2;
                     return false;
                 default:
                     return true;
