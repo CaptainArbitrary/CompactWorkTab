@@ -6,14 +6,12 @@ namespace CompactWorkTab
     public class ModSettings : Verse.ModSettings
     {
         public static bool UseScrollWheel = true;
-        public static bool DrawLabelsVertically = true;
-        public static bool DrawInclinedLabels = false;
+        public static HeaderOrientation HeaderOrientation = HeaderOrientation.Inclined;
 
         public override void ExposeData()
         {
             Scribe_Values.Look(ref UseScrollWheel, "UseScrollWheel", true);
-            Scribe_Values.Look(ref DrawLabelsVertically, "DrawLabelsVertically", true);
-            Scribe_Values.Look(ref DrawInclinedLabels, "DrawInclinedLabels", false);
+            Scribe_Values.Look(ref HeaderOrientation, "HeaderOrientation", HeaderOrientation.Inclined);
 
             base.ExposeData();
         }
@@ -22,16 +20,13 @@ namespace CompactWorkTab
         {
             Listing_Standard listing = new Listing_Standard();
             listing.Begin(inRect);
-            listing.CheckboxLabeled("Draw column labels vertically", ref DrawLabelsVertically);
+
             listing.CheckboxLabeled("Use scroll wheel to change work priorities", ref UseScrollWheel);
 
-            listing.CheckboxLabeled("Draw labels at a 60° angle", ref DrawInclinedLabels);
-
-            Text.Font = GameFont.Tiny;
-            GUI.color = Color.gray;
-            listing.Label("This is an EXPERIMENTAL feature. Please report bugs at https://dsc.gg/CaptainArbitrary.");
-            GUI.color = Color.white;
-            Text.Font = GameFont.Small;
+            listing.Label("Header Orientation:");
+            if (listing.RadioButton("Inclined", HeaderOrientation == HeaderOrientation.Inclined)) { HeaderOrientation = HeaderOrientation.Inclined; };
+            if (listing.RadioButton("Vertical", HeaderOrientation == HeaderOrientation.Vertical)) { HeaderOrientation = HeaderOrientation.Vertical; };
+            if (listing.RadioButton("Horizontal (RimWorld default)", HeaderOrientation == HeaderOrientation.Horizontal)) { HeaderOrientation = HeaderOrientation.Horizontal; };
 
             listing.End();
         }

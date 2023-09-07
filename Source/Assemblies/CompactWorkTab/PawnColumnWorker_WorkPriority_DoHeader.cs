@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -11,7 +12,21 @@ namespace CompactWorkTab
     {
         private static bool Prefix(PawnColumnWorker_WorkPriority __instance, Rect rect, PawnTable table)
         {
-            if (!ModSettings.DrawLabelsVertically) return true;
+            Action<Rect, string> drawLabelAction;
+
+            switch (ModSettings.HeaderOrientation)
+            {
+                case HeaderOrientation.Inclined:
+                    drawLabelAction = LabelDrawer.DrawInclinedLabel;
+                    break;
+                case HeaderOrientation.Vertical:
+                    drawLabelAction = LabelDrawer.DrawVerticalLabel;
+                    break;
+                case HeaderOrientation.Horizontal:
+                    return true;
+                default:
+                    return true;
+            }
             if (table.def != PawnTableDefOf.Work) return true;
 
             MouseoverSounds.DoRegion(rect);
@@ -24,7 +39,7 @@ namespace CompactWorkTab
 
             if (Mouse.IsOver(rect))
             {
-                if (!ModSettings.DrawInclinedLabels) Widgets.DrawHighlight(rect);
+                if (ModSettings.HeaderOrientation != HeaderOrientation.Inclined) Widgets.DrawHighlight(rect);
                 string headerTip = __instance.GetHeaderTip(table);
                 if (!headerTip.NullOrEmpty()) TooltipHandler.TipRegion(rect, headerTip);
             }
@@ -32,10 +47,8 @@ namespace CompactWorkTab
             if (Widgets.ButtonInvisible(rect)) __instance.HeaderClicked(rect, table);
 
             string label = __instance.def.workType.labelShort.CapitalizeFirst();
-            if (ModSettings.DrawInclinedLabels)
-                LabelDrawer.DrawInclinedLabel(rect, label);
-            else
-                LabelDrawer.DrawVerticalLabel(rect, label);
+            drawLabelAction(rect, label);
+
             return false;
         }
     }
