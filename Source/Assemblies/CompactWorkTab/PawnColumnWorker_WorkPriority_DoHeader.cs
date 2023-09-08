@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.ComponentModel;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
@@ -25,7 +26,7 @@ namespace CompactWorkTab
                 case HeaderOrientation.Horizontal:
                     return true;
                 default:
-                    return true;
+                    throw new InvalidEnumArgumentException(nameof(ModSettings.HeaderOrientation), (int)ModSettings.HeaderOrientation, typeof(HeaderOrientation));
             }
 
             if (table.def != PawnTableDefOf.Work) return true;
