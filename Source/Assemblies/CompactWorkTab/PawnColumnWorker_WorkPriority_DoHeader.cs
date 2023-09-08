@@ -13,6 +13,8 @@ namespace CompactWorkTab
     {
         private static bool Prefix(PawnColumnWorker_WorkPriority __instance, Rect rect, PawnTable table)
         {
+            if (table.def != PawnTableDefOf.Work) return true;
+
             LabelDrawer.LabelDrawerDelegate drawLabelDelegate;
 
             switch (ModSettings.HeaderOrientation)
@@ -28,8 +30,6 @@ namespace CompactWorkTab
                 default:
                     throw new InvalidEnumArgumentException(nameof(ModSettings.HeaderOrientation), (int)ModSettings.HeaderOrientation, typeof(HeaderOrientation));
             }
-
-            if (table.def != PawnTableDefOf.Work) return true;
 
             MouseoverSounds.DoRegion(rect);
 
