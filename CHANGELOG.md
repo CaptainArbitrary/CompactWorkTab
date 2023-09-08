@@ -1,3 +1,11 @@
+## Release 1.2.1
+
+### Bug Fixes
+
+**Add Textures to build config** ([PR #44](https://github.com/CaptainArbitrary/CompactWorkTab/pull/44))
+
+- In 1.2.0 the Textures folder was missing. This fixes that.
+
 ## Release 1.2.0
 
 ### Enhancements
