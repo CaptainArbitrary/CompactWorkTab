@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
@@ -12,56 +13,47 @@ namespace CompactWorkTab
     {
         private static bool Prefix(PawnColumnWorker_WorkPriority __instance, Rect rect, PawnTable table)
         {
-            Action<Rect, string> drawLabelAction;
+            if (table.def != PawnTableDefOf.Work) return true;
+
+            LabelDrawer.LabelDrawerDelegate drawLabelDelegate;
 
             switch (ModSettings.HeaderOrientation)
             {
                 case HeaderOrientation.Inclined:
-                    drawLabelAction = LabelDrawer.DrawInclinedLabel;
+                    drawLabelDelegate = LabelDrawer.DrawInclinedLabel;
                     break;
                 case HeaderOrientation.Vertical:
-                    drawLabelAction = LabelDrawer.DrawVerticalLabel;
+                    drawLabelDelegate = LabelDrawer.DrawVerticalLabel;
                     break;
                 case HeaderOrientation.Horizontal:
                     return true;
                 default:
-                    return true;
+                    throw new InvalidEnumArgumentException(nameof(ModSettings.HeaderOrientation), (int)ModSettings.HeaderOrientation, typeof(HeaderOrientation));
             }
-            if (table.def != PawnTableDefOf.Work) return true;
+
+            string label = __instance.def.workType.labelShort.CapitalizeFirst();
+            Rect transformedRect;
+            Matrix4x4 transformationMatrix;
+            (transformedRect, transformationMatrix) = drawLabelDelegate(rect, label);
+
+            Matrix4x4 originalMatrix = GUI.matrix;
+            GUI.matrix = transformationMatrix;
+
+            bool mouseIsOver = transformedRect.Contains(Event.current.mousePosition);
+
+            if (mouseIsOver && ModSettings.HeaderOrientation == HeaderOrientation.Inclined) Widgets.DrawHighlight(transformedRect);
+
+            GUI.matrix = originalMatrix;
+
+            if (mouseIsOver && ModSettings.HeaderOrientation == HeaderOrientation.Vertical) Widgets.DrawHighlight(rect);
 
             MouseoverSounds.DoRegion(rect);
 
-            if (table.SortingBy == __instance.def)
+            if (mouseIsOver)
             {
-                Texture2D tex = table.SortingDescending ? Textures.SortingDescendingIcon : Textures.SortingIcon;
-                Rect sortingTexRect;
-
-                switch (ModSettings.HeaderOrientation)
-                {
-                    case HeaderOrientation.Inclined:
-                        sortingTexRect = new Rect(rect.center.x - tex.width / 2f, rect.yMax - tex.height, tex.width, tex.height);
-                        break;
-                    case HeaderOrientation.Vertical:
-                    case HeaderOrientation.Horizontal:
-                    default:
-                        sortingTexRect = new Rect(rect.xMax - tex.width - 1f, rect.yMax - tex.height - 1f, tex.width, tex.height);
-                        break;
-                }
-
-                GUI.DrawTexture(sortingTexRect, tex);
-            }
-
-            if (Mouse.IsOver(rect))
-            {
-                if (ModSettings.HeaderOrientation != HeaderOrientation.Inclined) Widgets.DrawHighlight(rect);
                 string headerTip = __instance.GetHeaderTip(table);
-                if (!headerTip.NullOrEmpty()) TooltipHandler.TipRegion(rect, headerTip);
+                TooltipHandler.TipRegion(new Rect(0f, 0f, UI.screenWidth, UI.screenHeight), headerTip);
             }
-
-            if (Widgets.ButtonInvisible(rect)) __instance.HeaderClicked(rect, table);
-
-            string label = __instance.def.workType.labelShort.CapitalizeFirst();
-            drawLabelAction(rect, label);
 
             return false;
         }
