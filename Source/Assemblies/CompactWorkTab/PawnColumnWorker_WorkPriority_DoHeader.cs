@@ -31,39 +31,21 @@ namespace CompactWorkTab
                     throw new InvalidEnumArgumentException(nameof(ModSettings.HeaderOrientation), (int)ModSettings.HeaderOrientation, typeof(HeaderOrientation));
             }
 
-            MouseoverSounds.DoRegion(rect);
-
-            if (table.SortingBy == __instance.def)
-            {
-                Texture2D tex = table.SortingDescending ? Textures.SortingDescendingIcon : Textures.SortingIcon;
-                Rect sortingTexRect;
-
-                switch (ModSettings.HeaderOrientation)
-                {
-                    case HeaderOrientation.Inclined:
-                        sortingTexRect = new Rect(rect.center.x - tex.width / 2f, rect.yMax - tex.height, tex.width, tex.height);
-                        break;
-                    case HeaderOrientation.Vertical:
-                    case HeaderOrientation.Horizontal:
-                    default:
-                        sortingTexRect = new Rect(rect.xMax - tex.width - 1f, rect.yMax - tex.height - 1f, tex.width, tex.height);
-                        break;
-                }
-
-                GUI.DrawTexture(sortingTexRect, tex);
-            }
-
-            if (Mouse.IsOver(rect))
-            {
-                if (ModSettings.HeaderOrientation != HeaderOrientation.Inclined) Widgets.DrawHighlight(rect);
-                string headerTip = __instance.GetHeaderTip(table);
-                if (!headerTip.NullOrEmpty()) TooltipHandler.TipRegion(rect, headerTip);
-            }
-
-            if (Widgets.ButtonInvisible(rect)) __instance.HeaderClicked(rect, table);
-
             string label = __instance.def.workType.labelShort.CapitalizeFirst();
-            drawLabelDelegate(rect, label);
+            Rect transformedRect;
+            Matrix4x4 transformationMatrix;
+            (transformedRect, transformationMatrix) = drawLabelDelegate(rect, label);
+
+            Matrix4x4 originalMatrix = GUI.matrix;
+            GUI.matrix = transformationMatrix;
+
+            bool mouseIsOver = transformedRect.Contains(Event.current.mousePosition);
+
+            if (mouseIsOver && ModSettings.HeaderOrientation == HeaderOrientation.Inclined) Widgets.DrawHighlight(transformedRect);
+
+            GUI.matrix = originalMatrix;
+
+            if (mouseIsOver && ModSettings.HeaderOrientation == HeaderOrientation.Vertical) Widgets.DrawHighlight(rect);
 
             return false;
         }
