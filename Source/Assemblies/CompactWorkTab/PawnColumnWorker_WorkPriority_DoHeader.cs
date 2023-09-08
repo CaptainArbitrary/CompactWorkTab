@@ -47,6 +47,8 @@ namespace CompactWorkTab
 
             if (mouseIsOver && ModSettings.HeaderOrientation == HeaderOrientation.Vertical) Widgets.DrawHighlight(rect);
 
+            MouseoverSounds.DoRegion(rect);
+
             return false;
         }
     }
