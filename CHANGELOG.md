@@ -1,3 +1,29 @@
+## Release 1.2.0
+
+### Enhancements
+
+**Improved the inclined header labels feature** ([PR #36](https://github.com/CaptainArbitrary/CompactWorkTab/pull/36))
+
+- Limited header drawing to the main Work tab only
+  - This is specifically for improved compatibility with Numbers but it should help compatibility generally to make sure we're not running our code in unexpected contexts
+- Refactored mod settings to include three possible header styles
+  - inclined (the default)
+  - vertical
+  - horizontal (vanilla behavior)
+- Improved the positioning of the sorting icon above its column when inclined labels are enabled
+- Redesigned the mod options dialog to be easier to use and more intuitive (also prettier)
+
+**Moved inclined headers to fit over their columns** ([PR #39](https://github.com/CaptainArbitrary/CompactWorkTab/pull/39))
+
+- Calculate the horizontal offset using rect.xMax instead of rect.x + rect.width / 2
+- Apply the calculated offset to the rotatedRect for proper positioning
+
+**Enabled mouse-over features for inclined and vertical headers** ([PR #40](https://github.com/CaptainArbitrary/CompactWorkTab/pull/40))
+
+- Inclined and vertical headers now highlight consistently when moused over
+- Mouse-over sounds are enabled for inclined and vertical headers
+- Inclined and vertical headers now display their tooltips correctly when hovered over
+
 ## Release 1.1.1
 
 ### Enhancements
