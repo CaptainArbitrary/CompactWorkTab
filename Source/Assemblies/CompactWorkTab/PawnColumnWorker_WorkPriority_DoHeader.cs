@@ -49,6 +49,12 @@ namespace CompactWorkTab
 
             MouseoverSounds.DoRegion(rect);
 
+            if (mouseIsOver)
+            {
+                string headerTip = __instance.GetHeaderTip(table);
+                TooltipHandler.TipRegion(new Rect(0f, 0f, UI.screenWidth, UI.screenHeight), headerTip);
+            }
+
             return false;
         }
     }
