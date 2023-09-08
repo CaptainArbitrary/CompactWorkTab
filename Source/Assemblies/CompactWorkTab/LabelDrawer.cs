@@ -102,7 +102,7 @@ namespace CompactWorkTab
             );
 
             // Calculate the required horizontal offset to make c' match the target position
-            float xOffset = (rect.x + rect.width / 2) - cPrime.x;
+            float xOffset = rect.xMax - cPrime.x;
 
             // Apply the offset to the rotatedRect
             rotatedRect.x += xOffset;
