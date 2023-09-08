@@ -8,7 +8,9 @@ namespace CompactWorkTab
 {
     public static class LabelDrawer
     {
-        public static void DrawVerticalLabel(Rect rect, string label)
+        public delegate (Rect transformedRect, Matrix4x4 transformationMatrix) LabelDrawerDelegate(Rect rect, string label);
+
+        public static (Rect transformedRect, Matrix4x4 transformationMatrix) DrawVerticalLabel(Rect rect, string label)
         {
             // Store the current transformation matrix of the GUI to restore it later.
             Matrix4x4 originalMatrix = GUI.matrix;
@@ -23,19 +25,19 @@ namespace CompactWorkTab
             Vector2 unclippedPosition = GUIClip.Unclip(Vector2.zero);
 
             // Restore the original matrix for subsequent operations.
-            GUI.matrix = originalMatrix;
+            Matrix4x4 transformationMatrix = originalMatrix;
 
             // Create a translation matrix to shift the pivot point to 'unclippedPosition'.
-            Matrix4x4 translationToPivot = Matrix4x4.TRS(unclippedPosition, Quaternion.identity, Vector3.one);
+            transformationMatrix *= Matrix4x4.TRS(unclippedPosition, Quaternion.identity, Vector3.one);
 
             // Create a rotation matrix for a 90-degree counter-clockwise rotation.
-            Matrix4x4 rotation = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, -90f), Vector3.one);
+            transformationMatrix *= Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, -90f), Vector3.one);
 
             // Create another translation matrix to shift the pivot back from 'unclippedPosition'.
-            Matrix4x4 translationFromPivot = Matrix4x4.TRS(new Vector2(-rect.yMax - unclippedPosition.x, rect.xMin - unclippedPosition.y), Quaternion.identity, Vector3.one);
+            transformationMatrix *= Matrix4x4.TRS(new Vector2(-rect.yMax - unclippedPosition.x, rect.xMin - unclippedPosition.y), Quaternion.identity, Vector3.one);
 
             // Apply the transformations.
-            GUI.matrix *= translationToPivot * rotation * translationFromPivot;
+            GUI.matrix = transformationMatrix;
 
             // Calculate the necessary clipping values based on the rect and topRect.
             float leftClip = Mathf.Min(rect.xMin, 0);
@@ -75,9 +77,11 @@ namespace CompactWorkTab
 
             // Restore the original transformation matrix for subsequent GUI operations.
             GUI.matrix = originalMatrix;
+
+            return (labelRect, transformationMatrix);
         }
 
-        public static void DrawInclinedLabel(Rect rect, string label)
+        public static (Rect transformedRect, Matrix4x4 transformationMatrix) DrawInclinedLabel(Rect rect, string label)
         {
             // Calculate the size of the label
             Vector2 labelSize = Text.CalcSize(label);
@@ -117,16 +121,19 @@ namespace CompactWorkTab
             Vector2 pivotPoint = GUIClip.Unclip(rotatedRect.center);
 
             // Restore the original matrix for subsequent operations
-            GUI.matrix = originalMatrix;
+            Matrix4x4 transformationMatrix = originalMatrix;
 
             // Translate the matrix so the pivot point becomes the new origin
-            GUI.matrix *= Matrix4x4.TRS(pivotPoint, Quaternion.identity, Vector3.one);
+            transformationMatrix *= Matrix4x4.TRS(pivotPoint, Quaternion.identity, Vector3.one);
 
             // Rotate the matrix by -60 degrees around the new origin (pivotPoint)
-            GUI.matrix *= Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, -60f), Vector3.one);
+            transformationMatrix *= Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, -60f), Vector3.one);
 
             // Translate the matrix back to its original position
-            GUI.matrix *= Matrix4x4.TRS(-pivotPoint, Quaternion.identity, Vector3.one);
+            transformationMatrix *= Matrix4x4.TRS(-pivotPoint, Quaternion.identity, Vector3.one);
+
+            // Apply the transformation
+            GUI.matrix = transformationMatrix;
 
             // Backup the current GUI properties
             Color originalColor = GUI.color;
@@ -156,6 +163,8 @@ namespace CompactWorkTab
 
             // Reset the GUI matrix to its original state
             GUI.matrix = originalMatrix;
+
+            return (rotatedRect, transformationMatrix);
         }
     }
 }
