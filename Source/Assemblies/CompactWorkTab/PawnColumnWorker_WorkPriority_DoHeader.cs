@@ -15,6 +15,28 @@ namespace CompactWorkTab
         {
             if (table.def != PawnTableDefOf.Work) return true;
 
+            if (table.SortingBy == __instance.def)
+            {
+                Texture2D tex = table.SortingDescending ? Textures.SortingDescendingIcon : Textures.SortingIcon;
+                Rect sortingTexRect;
+
+                switch (ModSettings.HeaderOrientation)
+                {
+                    case HeaderOrientation.Inclined:
+                        sortingTexRect = new Rect(rect.center.x - tex.width / 2f, rect.yMax - tex.height, tex.width, tex.height);
+                        break;
+                    case HeaderOrientation.Vertical:
+                        sortingTexRect = new Rect(rect.xMax - tex.width - 1f, rect.yMax - tex.height - 1f, tex.width, tex.height);
+                        break;
+                    case HeaderOrientation.Horizontal:
+                        return true;
+                    default:
+                        throw new InvalidEnumArgumentException(nameof(ModSettings.HeaderOrientation), (int)ModSettings.HeaderOrientation, typeof(HeaderOrientation));
+                }
+
+                GUI.DrawTexture(sortingTexRect, tex);
+            }
+
             LabelDrawer.LabelDrawerDelegate drawLabelDelegate;
 
             switch (ModSettings.HeaderOrientation)
@@ -40,6 +62,8 @@ namespace CompactWorkTab
             GUI.matrix = transformationMatrix;
 
             bool mouseIsOver = transformedRect.Contains(Event.current.mousePosition);
+
+            if (Widgets.ButtonInvisible(transformedRect)) __instance.HeaderClicked(rect, table);
 
             if (mouseIsOver && ModSettings.HeaderOrientation == HeaderOrientation.Inclined) Widgets.DrawHighlight(transformedRect);
 
