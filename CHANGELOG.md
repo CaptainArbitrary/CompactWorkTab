@@ -1,3 +1,13 @@
+## Release 1.2.3
+
+### Bug Fixes
+
+**Improved compatibility with the Work Manager mod** ([PR #51](https://github.com/CaptainArbitrary/CompactWorkTab/pull/51))
+
+- https://steamcommunity.com/sharedfiles/filedetails/?id=2029596262
+- Previously inclined and vertical headers were overlapping Work Manager's custom widgets
+- Added a slightly hacky but effective method for shifting the Work tab headers up and out of the way if Work Manager is running
+
 ## Release 1.2.2
 
 ### Bug Fixes
