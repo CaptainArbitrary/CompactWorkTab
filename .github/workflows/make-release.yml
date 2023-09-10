@@ -79,52 +79,6 @@ jobs:
 
 #endregion
 
-#region Update CHANGELOG.txt
-
-    - id: update-changelog-txt
-      uses: mikepenz/release-changelog-builder-action@v4
-      with:
-        configuration: ".github/workflows/configurations/changelog-txt.json"
-        fromTag: ${{ steps.increment-version.outputs.current-version }}
-        toTag: ${{ github.ref }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - uses: DamianReeves/write-file-action@v1.2
-      with:
-        path: CHANGELOG.txt.temp
-        write-mode: overwrite
-        contents: "Release ${{ steps.increment-version.outputs.version }}\n\n${{ steps.update-changelog-txt.outputs.changelog }}"
-
-    - run: echo -e "$(cat CHANGELOG.txt.temp)\n\n$(cat CHANGELOG.txt)" > CHANGELOG.txt
-    - run: awk -v RS= -v ORS='\n\n' '1' CHANGELOG.txt > CHANGELOG.txt.temp
-    - run: mv CHANGELOG.txt.temp CHANGELOG.txt
-
-    - run: git add CHANGELOG.txt
-
-#region Update CHANGELOG.bbcode
-
-    - id: update-changelog-bbcode
-      uses: mikepenz/release-changelog-builder-action@v4
-      with:
-        configuration: ".github/workflows/configurations/changelog-bbcode.json"
-        fromTag: ${{ steps.increment-version.outputs.current-version }}
-        toTag: ${{ github.ref }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - uses: DamianReeves/write-file-action@v1.2
-      with:
-        path: CHANGELOG.bbcode.temp
-        write-mode: overwrite
-        contents: "[h1]Release ${{ steps.increment-version.outputs.version }}[/h1]\n\n${{ steps.update-changelog-bbcode.outputs.changelog }}"
-
-    - run: echo -e "$(cat CHANGELOG.bbcode.temp)\n\n$(cat CHANGELOG.bbcode)" > CHANGELOG.bbcode
-    - run: awk -v RS= -v ORS='\n\n' '1' CHANGELOG.bbcode > CHANGELOG.bbcode.temp
-    - run: mv CHANGELOG.bbcode.temp CHANGELOG.bbcode
-
-    - run: git add CHANGELOG.bbcode
-
 #region Update CHANGELOG.md
 
     - id: update-changelog-md
@@ -150,9 +104,9 @@ jobs:
 
 #endregion
 
-#region Commit CHANGELOG files
+#region Commit CHANGELOG file
 
-    - run: git commit -m "Update CHANGELOGs for version ${{ steps.increment-version.outputs.version }}"
+    - run: git commit -m "Update CHANGELOG.md for version ${{ steps.increment-version.outputs.version }}"
 
 #endregion
 
