@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using CompactWorkTab.Mods;
 using HarmonyLib;
 using RimWorld;
 using UnityEngine;
@@ -8,12 +9,15 @@ using Verse.Sound;
 
 namespace CompactWorkTab
 {
+    [HotSwappable]
     [HarmonyPatch(typeof(PawnColumnWorker_WorkPriority), nameof(PawnColumnWorker_WorkPriority.DoHeader))]
     public class PawnColumnWorker_WorkPriority_DoHeader
     {
         private static bool Prefix(PawnColumnWorker_WorkPriority __instance, Rect rect, PawnTable table)
         {
             if (table.def != PawnTableDefOf.Work) return true;
+
+            rect.y -= WorkManager.RectYOffset;
 
             if (table.SortingBy == __instance.def)
             {
