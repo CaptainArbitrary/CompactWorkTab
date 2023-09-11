@@ -2,7 +2,7 @@ using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 
-namespace CompactWorkTab
+namespace CompactWorkTab.Patches
 {
     [HarmonyPatch(typeof(PawnColumnWorker_RemainingSpace), nameof(PawnColumnWorker_RemainingSpace.GetMinWidth))]
     public class PawnColumnWorker_RemainingSpace_GetMinWidth

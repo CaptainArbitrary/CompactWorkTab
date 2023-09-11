@@ -1,4 +1,3 @@
-﻿using System;
 using System.ComponentModel;
 using CompactWorkTab.Mods;
 using HarmonyLib;
@@ -7,7 +6,7 @@ using UnityEngine;
 using Verse;
 using Verse.Sound;
 
-namespace CompactWorkTab
+namespace CompactWorkTab.Patches
 {
     [HotSwappable]
     [HarmonyPatch(typeof(PawnColumnWorker_WorkPriority), nameof(PawnColumnWorker_WorkPriority.DoHeader))]
