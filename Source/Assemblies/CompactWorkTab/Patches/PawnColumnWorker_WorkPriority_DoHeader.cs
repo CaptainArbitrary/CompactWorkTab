@@ -16,7 +16,7 @@ namespace CompactWorkTab.Patches
         {
             if (table.def != PawnTableDefOf.Work) return true;
 
-            rect.y -= WorkManager.RectYOffset;
+            rect.y -= ExternalModManager.RectYOffset;
 
             if (table.SortingBy == __instance.def)
             {
