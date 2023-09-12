@@ -15,9 +15,9 @@ namespace CompactWorkTab
 
         public static void Recache(PawnTable table)
         {
-            MinPriority = Constants.MinPriority;
-            MaxPriority = PriorityMaster.MaxPriority ?? Constants.MaxPriority;
-            DefPriority = PriorityMaster.DefaultPriority ?? Constants.DefPriority;
+            MinPriority = ExternalModManager.MinPriority;
+            MaxPriority = ExternalModManager.MaxPriority;
+            DefPriority = ExternalModManager.DefPriority;
 
             float minHeaderHeightAsFloat = 0f;
             foreach (PawnColumnDef column in table.Columns)

@@ -1,7 +1,7 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using RimWorld;
 
-namespace CompactWorkTab
+namespace CompactWorkTab.Patches
 {
     [HarmonyPatch(typeof(PawnTable), "CalculateHeaderHeight")]
     public class PawnTable_CalculateHeaderHeight

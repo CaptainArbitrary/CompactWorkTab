@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Reflection;
 using HarmonyLib;
 using RimWorld;
 
-namespace CompactWorkTab
+namespace CompactWorkTab.Patches
 {
     [HarmonyPatch(typeof(PawnTable), "RecacheIfDirty")]
     public class PawnTable_RecacheIfDirty

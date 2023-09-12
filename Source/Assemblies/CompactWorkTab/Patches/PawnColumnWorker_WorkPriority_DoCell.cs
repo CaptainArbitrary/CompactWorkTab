@@ -1,10 +1,10 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
-namespace CompactWorkTab
+namespace CompactWorkTab.Patches
 {
     [HarmonyPatch(typeof(PawnColumnWorker_WorkPriority), nameof(PawnColumnWorker_WorkPriority.DoCell))]
     public class PawnColumnWorker_WorkPriority_DoCell
