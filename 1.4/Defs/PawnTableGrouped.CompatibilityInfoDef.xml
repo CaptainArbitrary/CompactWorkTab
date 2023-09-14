@@ -8,7 +8,7 @@
     <tables>
       <li>
         <name>Work</name>
-        <compatibility>Compatible</compatibility>
+        <compatibility>Supported</compatibility>
         <config>
           <allowHScroll>false</allowHScroll>
         </config>
