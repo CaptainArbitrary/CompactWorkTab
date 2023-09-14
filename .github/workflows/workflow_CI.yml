@@ -1,0 +1,49 @@
+name: "CI"
+
+on:
+  push:
+    branches:
+      - '**'
+
+concurrency:
+  group: "CI-${{ github.ref }}"
+  cancel-in-progress: false
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    steps:
+
+#region Setup
+    - uses: actions/checkout@v4
+
+    - uses: falti/dotenv-action@v1.0.4
+      with:
+        keys-case: bypass
+        export-variables: true
+#endregion
+
+#region Lint all XML files
+    - uses: tecolicom/actions-use-apt-tools@v1
+      with:
+        tools: libxml2-utils
+
+    - uses: tj-actions/glob@v17
+      id: glob
+      with:
+        files: |
+          **/*.xml
+        excluded-files: |
+          Source/**/*
+
+    - if: steps.glob.outputs.paths != ''
+      run: xmllint --noout ${{ steps.glob.outputs.paths }}
+#endregion
+
+#region Build the assembly
+    - if: env.SLN_PATH != ''
+      run: dotnet restore ${{ env.SLN_PATH }}
+
+    - if: env.SLN_PATH != ''
+      run: dotnet build ${{ env.SLN_PATH }} --configuration Debug --no-restore
+#endregion
