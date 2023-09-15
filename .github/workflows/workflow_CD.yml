@@ -121,8 +121,8 @@ jobs:
 
 #region Move tag to the merge commit
     - run: git tag -d ${{ github.ref_name }}
-    - run: git tag ${{ github.ref_name }}
     - run: git push origin :refs/tags/${{ github.ref_name }}
+    - run: git tag ${{ github.ref_name }}
     - run: git push origin ${{ github.ref_name }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
