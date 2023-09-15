@@ -11,8 +11,8 @@
     <img alt="License" src="https://img.shields.io/badge/license-mit-green?style=for-the-badge" />
   </a>
 &emsp;
-  <a href="https://github.com/CaptainArbitrary/CompactWorkTab/actions/workflows/ci.yml">
-    <img alt="CI Status" src="https://img.shields.io/github/actions/workflow/status/CaptainArbitrary/CompactWorkTab/ci.yml?style=for-the-badge&label=CI" />
+  <a href="https://github.com/CaptainArbitrary/CompactWorkTab/actions/workflows/workflow_CI.yml">
+    <img alt="CI Status" src="https://img.shields.io/github/actions/workflow/status/CaptainArbitrary/CompactWorkTab/workflow_CI.yml?style=for-the-badge&label=CI" />
   </a>
 &emsp;
   <a href="https://github.com/CaptainArbitrary/CompactWorkTab/issues">
