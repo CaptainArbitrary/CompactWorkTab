@@ -1,3 +1,11 @@
+## Release 1.2.4
+
+### Enhancements
+
+**Changed Grouped Pawns Lists compatibility for Work table** ([PR #57](https://github.com/CaptainArbitrary/CompactWorkTab/pull/57))
+
+- With Krypt's blessing, upgraded compatibility status from "Compatible" to "Supported"
+
 ## Release 1.2.3
 
 ### Bug Fixes
