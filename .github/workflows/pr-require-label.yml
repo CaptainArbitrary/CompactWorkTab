@@ -1,0 +1,17 @@
+name: PR Require Label
+
+on:
+  pull_request:
+    types:
+      - opened
+      - labeled
+      - unlabeled
+      - synchronize
+    branches:
+      - main
+
+jobs:
+  pr-require-label:
+    permissions:
+      pull-requests: write
+    uses: CaptainArbitrary/workflows/.github/workflows/pr-require-label.yml@main

@@ -1,0 +1,10 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  ci:
+    uses: CaptainArbitrary/workflows/.github/workflows/ci.yml@main
