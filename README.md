@@ -11,8 +11,8 @@
     <img alt="License" src="https://img.shields.io/badge/license-mit-green?style=for-the-badge" />
   </a>
 &emsp;
-  <a href="https://github.com/CaptainArbitrary/CompactWorkTab/actions/workflows/workflow_CI.yml">
-    <img alt="CI Status" src="https://img.shields.io/github/actions/workflow/status/CaptainArbitrary/CompactWorkTab/workflow_CI.yml?style=for-the-badge&label=CI" />
+  <a href="https://github.com/CaptainArbitrary/CompactWorkTab/actions/workflows/ci.yml">
+    <img alt="CI Status" src="https://img.shields.io/github/actions/workflow/status/CaptainArbitrary/CompactWorkTab/ci.yml?style=for-the-badge&label=CI" />
   </a>
 &emsp;
   <a href="https://github.com/CaptainArbitrary/CompactWorkTab/issues">
@@ -53,6 +53,10 @@ All mod settings can be changed via RimWorld's mod options menu.
 This mod has been tested and found to be nicely compatible with [Numbers](https://steamcommunity.com/sharedfiles/filedetails/?id=1414302321), [Priority Master](https://steamcommunity.com/sharedfiles/filedetails/?id=1994006442) and [Grouped Pawns Lists](https://steamcommunity.com/sharedfiles/filedetails/?id=2340773428). It's _technically_ also compatible with [Fluffy's Work Tab](https://steamcommunity.com/sharedfiles/filedetails/?id=725219116) (from which this mod took inspiration), but if you run them both at the same time Fluffy's mod will override the functionality of this one, so I recommend you don't do that.
 
 Mods that add new work types to the game are fully compatible with Compact Work Tab.
+
+# Bug Reports and Other Feedback
+
+Bug reports are welcome! Please share them on my [Discord](https://discord.gg/4SrvKaQTB3). Include as many specifics as possible. Screen shots are extremely helpful, as are steps to reproduce the bug you're reporting.
 
 # Acknowledgments
 
