@@ -54,6 +54,10 @@ This mod has been tested and found to be nicely compatible with [Numbers](https:
 
 Mods that add new work types to the game are fully compatible with Compact Work Tab.
 
+# Bug Reports and Other Feedback
+
+Bug reports are welcome! Please share them on my [Discord](https://discord.gg/4SrvKaQTB3). Include as many specifics as possible. Screen shots are extremely helpful, as are steps to reproduce the bug you're reporting.
+
 # Acknowledgments
 
 Thanks to [Fluffy](https://steamcommunity.com/id/FluffyMods/myworkshopfiles/?appid=294100) whose Work Tab mod inspired this one, and special thanks to [Krypt](https://steamcommunity.com/profiles/76561198052696897/myworkshopfiles/?appid=294100) who taught me a workaround for an annoying text-rotation bug.
