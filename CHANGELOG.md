@@ -1,3 +1,11 @@
+## Release 1.2.5
+
+### Bug Fixes
+
+Replaced CalculateHeaderHeight patch with GetMinHeaderHeight patch ([PR #65](https://github.com/CaptainArbitrary/CompactWorkTab/pull/65))
+
+- This fixes the issue with the Schedule tab being incorrectly drawn
+
 ## Release 1.2.4
 
 ### Enhancements
